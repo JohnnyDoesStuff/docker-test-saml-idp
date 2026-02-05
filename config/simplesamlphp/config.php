@@ -23,7 +23,7 @@ $config = array(
      */
     'baseurlpath' => 'simplesaml/',
     'certdir' => 'cert/',
-    'loggingdir' => 'log/',
+    'loggingdir' => '/var/simplesamlphp/log/',
     'datadir' => 'data/',
 
     /*
@@ -32,18 +32,6 @@ $config = array(
      * SimpleSAMLphp will attempt to create this directory if it doesn't exist.
      */
     'tempdir' => '/tmp/simplesaml',
-
-
-    /*
-     * If you enable this option, SimpleSAMLphp will log all sent and received messages
-     * to the log file.
-     *
-     * This option also enables logging of the messages that are encrypted and decrypted.
-     *
-     * Note: The messages are logged with the DEBUG log level, so you also need to set
-     * the 'logging.level' option to LOG_DEBUG.
-     */
-    'debug' => true,
 
     /*
      * When showerrors is enabled, all error messages and stack traces will be output
@@ -121,7 +109,7 @@ $config = array(
      * Options: [syslog,file,errorlog]
      *
      */
-    'logging.level' => SimpleSAML_Logger::DEBUG,
+    'logging.level' => SimpleSAML\Logger::DEBUG,
     'logging.handler' => 'errorlog',
 
     /*

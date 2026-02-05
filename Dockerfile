@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:8.2-apache
 MAINTAINER Kristoph Junge <kristoph.junge@gmail.com>
 
 # Utilities
@@ -7,17 +7,18 @@ RUN apt-get update && \
     rm -r /var/lib/apt/lists/*
 
 # SimpleSAMLphp
-ARG SIMPLESAMLPHP_VERSION=1.15.2
-RUN curl -s -L -o /tmp/simplesamlphp.tar.gz https://github.com/simplesamlphp/simplesamlphp/releases/download/v$SIMPLESAMLPHP_VERSION/simplesamlphp-$SIMPLESAMLPHP_VERSION.tar.gz && \
+ARG SIMPLESAMLPHP_VERSION=2.4.4
+RUN curl -s -L -o /tmp/simplesamlphp.tar.gz https://github.com/simplesamlphp/simplesamlphp/releases/download/v$SIMPLESAMLPHP_VERSION/simplesamlphp-$SIMPLESAMLPHP_VERSION-full.tar.gz && \
     tar xzf /tmp/simplesamlphp.tar.gz -C /tmp && \
     rm -f /tmp/simplesamlphp.tar.gz  && \
-    mv /tmp/simplesamlphp-* /var/www/simplesamlphp && \
-    touch /var/www/simplesamlphp/modules/exampleauth/enable
-COPY config/simplesamlphp/config.php /var/www/simplesamlphp/config
-COPY config/simplesamlphp/authsources.php /var/www/simplesamlphp/config
-COPY config/simplesamlphp/saml20-sp-remote.php /var/www/simplesamlphp/metadata
-COPY config/simplesamlphp/server.crt /var/www/simplesamlphp/cert/
-COPY config/simplesamlphp/server.pem /var/www/simplesamlphp/cert/
+    mv /tmp/simplesamlphp-* /var/simplesamlphp && \
+    touch /var/simplesamlphp/modules/exampleauth/enable
+COPY config/simplesamlphp/config.php /var/simplesamlphp/config
+COPY config/simplesamlphp/authsources.php /var/simplesamlphp/config
+COPY config/simplesamlphp/saml20-sp-remote.php /var/simplesamlphp/metadata
+COPY config/simplesamlphp/saml20-idp-hosted.php /var/simplesamlphp/metadata
+COPY config/simplesamlphp/server.crt /var/simplesamlphp/cert/
+COPY config/simplesamlphp/server.pem /var/simplesamlphp/cert/
 
 # Apache
 COPY config/apache/ports.conf /etc/apache2
@@ -31,6 +32,8 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf && \
 
 # Set work dir
 WORKDIR /var/www/simplesamlphp
+
+RUN chmod 777 /var/simplesamlphp
 
 # General setup
 EXPOSE 8080 8443
