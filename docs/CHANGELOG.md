@@ -1,3 +1,7 @@
+## 2026-02-09 v2.4.4
+* Update php container to version 8.2
+* Update SimpleSamlPhp to version 2.4.4
+
 ## 2018-02-04 v1.15.2-1
 
 * Changed PHP version to 7.1 instead of 7.x because of compatibility issues.
